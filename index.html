@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recap V1 - Engagement LinkedIn | Clement</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --neo-shadow: 4px 4px 0px #000;
+      --neo-shadow-lg: 8px 8px 0px #000;
+      --neo-shadow-hover: 2px 2px 0px #000;
+    }
+
+    * { font-family: 'Space Grotesk', sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .neo-card {
+      border: 3px solid #000;
+      box-shadow: var(--neo-shadow);
+      transition: all 0.2s ease;
+    }
+    .neo-card:hover {
+      box-shadow: var(--neo-shadow-hover);
+      transform: translate(2px, 2px);
+    }
+    .neo-card-lg {
+      border: 3px solid #000;
+      box-shadow: var(--neo-shadow-lg);
+    }
+    .neo-btn {
+      border: 3px solid #000;
+      box-shadow: var(--neo-shadow);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .neo-btn:hover {
+      box-shadow: var(--neo-shadow-hover);
+      transform: translate(2px, 2px);
+    }
+    .neo-btn:active {
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    .neo-img {
+      border: 3px solid #000;
+      box-shadow: var(--neo-shadow-lg);
+      transition: all 0.3s ease;
+    }
+    .neo-img:hover {
+      transform: scale(1.02) rotate(-0.5deg);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .marquee {
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f97316);
+      z-index: 9999;
+      transition: width 0.1s;
+    }
+
+    section {
+      min-height: 60vh;
+      padding: 80px 0;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      background: #fff;
+      transition: all 0.3s;
+    }
+    .nav-dot.active {
+      background: #667eea;
+      transform: scale(1.3);
+    }
+
+    .typing {
+      border-right: 3px solid #000;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { border-color: #000; }
+      50% { border-color: transparent; }
+    }
+
+    .checklist li::before {
+      content: ">";
+      font-weight: bold;
+      margin-right: 8px;
+      color: #667eea;
+    }
+
+    .tooltip {
+      position: relative;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 0;
+      font-size: 12px;
+      white-space: nowrap;
+      border: 2px solid #000;
+    }
+
+    .counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Easter egg: konami code triggers rainbow mode */
+    .rainbow-mode * {
+      animation: rainbow 2s linear infinite !important;
+    }
+    @keyframes rainbow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* Smooth scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #fef3c7; }
+    ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fef3c7; }
+
+    .line-through-anim {
+      text-decoration: line-through;
+      text-decoration-color: #ef4444;
+      text-decoration-thickness: 3px;
+    }
+  </style>
+</head>
+<body class="bg-amber-50 text-gray-900 overflow-x-hidden">
+
+  <!-- Progress bar -->
+  <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+  <!-- Fixed nav dots -->
+  <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2 hidden md:flex" id="navDots"></nav>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 1-5 : INTRODUCTION -->
+  <!-- ============================================================ -->
+
+  <!-- SECTION 1 : Hero -->
+  <section id="s1" class="min-h-screen flex items-center justify-center relative" data-nav="Intro">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute -top-20 -right-20 w-64 h-64 bg-indigo-200 rounded-full opacity-30 float"></div>
+      <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-orange-200 rounded-full opacity-40 float" style="animation-delay: 2s"></div>
+      <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-pink-200 rounded-full opacity-20 float" style="animation-delay: 4s"></div>
+    </div>
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+      <div class="fade-in">
+        <div class="inline-block neo-card bg-indigo-100 px-4 py-2 mb-8">
+          <span class="mono text-sm font-medium">v1.0 - mars 2026</span>
+        </div>
+      </div>
+      <h1 class="fade-in stagger-1 text-5xl md:text-7xl font-bold leading-tight mb-6">
+        Hello Clement <span class="inline-block animate-bounce">&#128075;</span>
+      </h1>
+      <p class="fade-in stagger-2 text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+        Je t'ai preparé un petit recap de la <span class="font-bold text-indigo-600">v1 du systeme d'engagement LinkedIn</span>.
+      </p>
+      <p class="fade-in stagger-3 text-lg text-gray-500 max-w-xl mx-auto mb-12">
+        Le but c'est que tu comprennes comment j'ai imaginé le systeme et comment on pourrait l'améliorer apres avec tes idées.
+      </p>
+      <div class="fade-in stagger-4">
+        <a href="#s2" class="neo-btn inline-block bg-indigo-500 text-white px-8 py-4 text-lg font-bold hover:bg-indigo-600">
+          C'est parti &#8595;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 : Le concept -->
+  <section id="s2" class="py-20" data-nav="Concept">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">En gros, c'est quoi ?</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8 md:p-12 mb-8">
+        <p class="text-xl leading-relaxed mb-6">
+          C'est un systeme qui <span class="font-bold">like</span> et <span class="font-bold">commente</span> automatiquement les posts de créateurs LinkedIn que tu suis. Le tout depuis le compte de Baptiste.
+        </p>
+        <p class="text-xl leading-relaxed mb-6">
+          L'idée c'est simple : au lieu de passer 1h par jour à scroller LinkedIn, liker et commenter à la main, le systeme le fait pour toi. Et les commentaires sont écrits par <span class="font-bold text-indigo-600">Claude</span> (l'IA d'Anthropic), donc ils sont pertinents et contextuels.
+        </p>
+        <p class="text-lg text-gray-500">
+          Tout est orchestré par <span class="font-bold">n8n</span> (un outil d'automatisation) et tout part de <span class="font-bold">Notion</span>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 : Tout part de Notion -->
+  <section id="s3" class="py-20 bg-white" data-nav="Notion">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-4">Tout part de Notion</h2>
+      <p class="fade-in stagger-1 text-xl text-gray-500 mb-12">Le systeme utilise 2 tables Notion. C'est ton centre de controle.</p>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="fade-in-left neo-card bg-amber-50 p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="bg-indigo-500 text-white font-bold w-10 h-10 flex items-center justify-center text-lg" style="border: 3px solid #000">1</span>
+            <h3 class="text-2xl font-bold">Profils Cibles</h3>
+          </div>
+          <p class="text-gray-600 mb-4">La liste des créateurs LinkedIn qu'on surveille. Chaque profil a :</p>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> <span><strong>Nom</strong> - le nom du créateur</span></li>
+            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> <span><strong>Actif</strong> - coché = on le surveille</span></li>
+            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> <span><strong>Mode</strong> - Manuel ou Auto</span></li>
+            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> <span><strong>Dernier Post URN</strong> - pour ne pas liker 2 fois</span></li>
+            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> <span><strong>URL LinkedIn</strong> - le lien du profil</span></li>
+          </ul>
+        </div>
+        <div class="fade-in-right neo-card bg-amber-50 p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="bg-orange-500 text-white font-bold w-10 h-10 flex items-center justify-center text-lg" style="border: 3px solid #000">2</span>
+            <h3 class="text-2xl font-bold">Engagements</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Chaque like/commentaire qu'on fait est enregistré ici :</p>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <span><strong>Extrait Post</strong> - le début du post liké</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <span><strong>Like envoyé</strong> - coché quand c'est fait</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <span><strong>Commentaire</strong> - le texte généré par Claude</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <span><strong>Statut</strong> - Nouveau / A valider / Valide / Publié</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <span><strong>Lien Post</strong> - le lien direct vers le post</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 : Screenshot Profils -->
+  <section id="s4" class="py-20" data-nav="Table Profils">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-3xl md:text-4xl font-bold mb-4">Table 1 : Profils Cibles LinkedIn</h2>
+      <p class="fade-in stagger-1 text-lg text-gray-500 mb-4">Actuellement <span class="font-bold text-indigo-600">50 profils actifs</span> sont surveillés. Tous en mode Manuel pour le moment.</p>
+      <a href="https://www.notion.so/31bbcee8baed8168a18dd634e8455490" target="_blank" class="fade-in stagger-1 neo-btn inline-block bg-indigo-500 text-white px-4 py-2 text-sm font-bold mb-8">Ouvrir dans Notion &#8599;</a>
+      <div class="fade-in stagger-2">
+        <img src="notion-profils.png" alt="Table Profils Notion" class="neo-img w-full rounded-none">
+      </div>
+      <div class="fade-in stagger-3 mt-8 neo-card bg-indigo-50 p-6">
+        <p class="text-gray-700">
+          <span class="font-bold">Ce que tu vois :</span> Jeremy Boissinot, Yannick Bouissiere, Claire Petreault, Guillaume Bro, Cassandra Polito, Hugo Travers, Serge Zaka, etc. Tous cochés "Actif", tous en mode "Manuel". Tu peux ajouter ou retirer des profils quand tu veux directement dans Notion.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 : Screenshot Engagements -->
+  <section id="s5" class="py-20 bg-white" data-nav="Table Engagements">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-3xl md:text-4xl font-bold mb-4">Table 2 : Engagements LinkedIn</h2>
+      <p class="fade-in stagger-1 text-lg text-gray-500 mb-4">C'est ici que chaque interaction est tracée. Voici le résultat apres notre test d'aujourd'hui :</p>
+      <a href="https://www.notion.so/31bbcee8baed81b786f6ff97bbe567d8" target="_blank" class="fade-in stagger-1 neo-btn inline-block bg-orange-500 text-white px-4 py-2 text-sm font-bold mb-8">Ouvrir dans Notion &#8599;</a>
+      <div class="fade-in stagger-2">
+        <img src="notion-engagements.png" alt="Table Engagements Notion" class="neo-img w-full rounded-none">
+      </div>
+      <div class="fade-in stagger-3 mt-8 grid md:grid-cols-3 gap-4">
+        <div class="neo-card bg-green-50 p-4 text-center">
+          <p class="text-3xl font-bold text-green-600 counter">6</p>
+          <p class="text-sm text-gray-600 mt-1">posts likés</p>
+        </div>
+        <div class="neo-card bg-blue-50 p-4 text-center">
+          <p class="text-3xl font-bold text-blue-600 counter">6</p>
+          <p class="text-sm text-gray-600 mt-1">commentaires générés</p>
+        </div>
+        <div class="neo-card bg-purple-50 p-4 text-center">
+          <p class="text-3xl font-bold text-purple-600 counter">6</p>
+          <p class="text-sm text-gray-600 mt-1">publiés sur LinkedIn</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 6-10 : BRANCHE 1 - DETECTION + LIKE -->
+  <!-- ============================================================ -->
+
+  <!-- Separator -->
+  <div class="bg-black text-white py-6 overflow-hidden">
+    <div class="marquee whitespace-nowrap">
+      <span class="text-2xl font-bold mx-8">BRANCHE 1 : DETECTION + LIKE + COMMENTAIRE</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">BRANCHE 1 : DETECTION + LIKE + COMMENTAIRE</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">BRANCHE 1 : DETECTION + LIKE + COMMENTAIRE</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">BRANCHE 1 : DETECTION + LIKE + COMMENTAIRE</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+    </div>
+  </div>
+
+  <!-- SECTION 6 : Vue d'ensemble -->
+  <section id="s6" class="py-20" data-nav="Vue d'ensemble">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-4">Comment ca marche, étape par étape</h2>
+      <p class="fade-in stagger-1 text-xl text-gray-500 mb-12">Le workflow fait tout dans l'ordre. Voici la vue complète dans n8n :</p>
+      <div class="fade-in stagger-2">
+        <img src="n8n-canvas-like.png" alt="Canvas n8n - Like" class="neo-img w-full rounded-none mb-6">
+      </div>
+      <div class="fade-in stagger-3">
+        <img src="n8n-canvas-comment.png" alt="Canvas n8n - Comment" class="neo-img w-full rounded-none">
+      </div>
+      <div class="fade-in stagger-4 mt-8 neo-card bg-gray-50 p-6">
+        <p class="mono text-sm text-gray-600 leading-relaxed">
+          Trigger Manuel &#8594; Mon ID LinkedIn &#8594; Lire Profils Actifs &#8594; Extraire Profils &#8594; Apify Scraper &#8594; Filtrer Nouveaux Posts &#8594; Creer Engagement &#8594; Liker le Post &#8594; Cocher Like &#8594; Attendre 2min &#8594; Claude Commentaire &#8594; Extraire Commentaire &#8594; Ecrire Commentaire &#8594; Mode Auto ? &#8594; Statut A Valider / Poster Commentaire &#8594; MAJ Profil &#8594; Post suivant
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 : Lire Profils -->
+  <section id="s7" class="py-20 bg-white" data-nav="Lire Profils">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-indigo-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 1</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Lire les profils actifs</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="fade-in-left">
+          <p class="text-lg text-gray-600 mb-6">
+            Le workflow commence par lire la table <strong>Profils Cibles</strong> dans Notion. Il récupere tous les profils ou la case "Actif" est cochée.
+          </p>
+          <p class="text-lg text-gray-600 mb-6">
+            Pour notre test, il a trouvé <strong>50 profils actifs</strong>. Pour chacun, il récupere le nom, l'URL LinkedIn, le mode (Manuel/Auto), et le dernier post déja vu.
+          </p>
+          <div class="neo-card bg-amber-50 p-4">
+            <p class="mono text-sm"><strong>Exemple :</strong> Harold Gardas</p>
+            <p class="mono text-sm text-gray-500">URL : linkedin.com/in/harold-gardas/</p>
+            <p class="mono text-sm text-gray-500">Mode : Manuel</p>
+            <p class="mono text-sm text-gray-500">Actif : true</p>
+          </div>
+        </div>
+        <div class="fade-in-right">
+          <img src="n8n-lire-profils.png" alt="Node Lire Profils" class="neo-img w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8 : Extraire Profils -->
+  <section id="s8" class="py-20" data-nav="Extraire">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-indigo-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 2</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Extraire et préparer</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="fade-in-left">
+          <img src="n8n-extraire-profils.png" alt="Node Extraire Profils" class="neo-img w-full">
+        </div>
+        <div class="fade-in-right">
+          <p class="text-lg text-gray-600 mb-6">
+            Un petit bout de code prend les 50 profils et les prépare pour l'étape suivante. Il crée une liste d'URLs LinkedIn et une "map" pour pouvoir retrouver facilement quel profil correspond a quel post.
+          </p>
+          <p class="text-lg text-gray-600">
+            C'est aussi ici qu'on gere le format des dates Notion (qui est un peu spécial) pour éviter les bugs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9 : Apify Scanner -->
+  <section id="s9" class="py-20 bg-white" data-nav="Apify">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-indigo-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 3</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Scanner les posts via Apify</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="fade-in-left">
+          <p class="text-lg text-gray-600 mb-6">
+            <strong>Apify</strong> est un service qui va scraper LinkedIn pour nous. On lui envoie la liste des 50 URLs et il nous retourne le <strong>dernier post</strong> de chaque profil.
+          </p>
+          <p class="text-lg text-gray-600 mb-6">
+            Pour notre test, il a trouvé <strong>41 posts</strong> (certains profils n'avaient pas de post récent).
+          </p>
+          <div class="neo-card bg-green-50 p-4">
+            <p class="mono text-sm text-gray-600">Pour chaque post, Apify retourne :</p>
+            <p class="mono text-sm mt-2">- Le texte du post</p>
+            <p class="mono text-sm">- L'URL du post</p>
+            <p class="mono text-sm">- Le nom de l'auteur</p>
+            <p class="mono text-sm">- La date de publication</p>
+          </div>
+        </div>
+        <div class="fade-in-right">
+          <img src="n8n-apify.png" alt="Node Apify" class="neo-img w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10 : Filtrer -->
+  <section id="s10" class="py-20" data-nav="Filtrer">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-indigo-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 4</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Filtrer les nouveaux posts</h2>
+      </div>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8 mb-8">
+        <p class="text-lg text-gray-600 mb-6">
+          C'est l'étape la plus importante. Le systeme vérifie pour chaque post :
+        </p>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="neo-card bg-red-50 p-4">
+            <p class="font-bold text-red-600 mb-2">Déja liké ?</p>
+            <p class="text-sm text-gray-600">Si le "Dernier Post URN" du profil est le meme que le post trouvé &#8594; on skip</p>
+          </div>
+          <div class="neo-card bg-yellow-50 p-4">
+            <p class="font-bold text-yellow-600 mb-2">Trop ancien ?</p>
+            <p class="text-sm text-gray-600">Si le post date d'avant le dernier check du profil &#8594; on skip</p>
+          </div>
+          <div class="neo-card bg-blue-50 p-4">
+            <p class="font-bold text-blue-600 mb-2">Doublon ?</p>
+            <p class="text-sm text-gray-600">1 seul post par profil par cycle, pas de duplicata</p>
+          </div>
+        </div>
+        <p class="text-lg text-gray-500 mt-6">
+          &#8594; Résultat : si tu relances le workflow, il ne likera <strong>jamais</strong> deux fois le meme post.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 11-15 : LIKE + COMMENTAIRE -->
+  <!-- ============================================================ -->
+
+  <!-- SECTION 11 : Créer + Liker -->
+  <section id="s11" class="py-20 bg-white" data-nav="Like">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-green-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 5</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Créer l'engagement + Liker</h2>
+      </div>
+      <div class="fade-in stagger-1">
+        <img src="n8n-canvas-like.png" alt="Canvas Like" class="neo-img w-full mb-8">
+      </div>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="fade-in-left neo-card bg-amber-50 p-6">
+          <h3 class="text-xl font-bold mb-3">Créer Engagement</h3>
+          <p class="text-gray-600">
+            Le systeme crée une nouvelle ligne dans la table Engagements de Notion avec le nom de l'auteur, l'extrait du post, le lien, la date, et le statut "Nouveau".
+          </p>
+        </div>
+        <div class="fade-in-right neo-card bg-green-50 p-6">
+          <h3 class="text-xl font-bold mb-3">Liker le Post</h3>
+          <p class="text-gray-600">
+            Un appel a l'API LinkedIn pour liker le post depuis le compte de Baptiste. Puis il coche "Like envoyé" dans Notion.
+          </p>
+        </div>
+      </div>
+      <div class="fade-in stagger-3 mt-8 neo-card bg-gray-100 p-4">
+        <p class="mono text-sm text-gray-600">
+          <span class="text-green-600 font-bold">&#10003;</span> 6 posts likés pendant notre test : Nicolas Froissard, Harold Gardas, Thibault Louis, Amandine Bart, Maxime Ryvol, Antoine Périgne
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 12 : Attendre -->
+  <section id="s12" class="py-20" data-nav="Anti-détection">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-green-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 6</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Attendre 2 minutes</h2>
+      </div>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8 text-center">
+        <div class="text-6xl mb-4">&#9203;</div>
+        <p class="text-xl text-gray-600 mb-4">
+          Apres chaque like, le systeme attend <strong>2 minutes</strong> avant de générer le commentaire.
+        </p>
+        <p class="text-lg text-gray-500">
+          Pourquoi ? Pour simuler un comportement humain. Si on like et commente 50 posts en 10 secondes, LinkedIn va detecter que c'est un bot et bloquer le compte. 2 minutes entre chaque action, ca reste naturel.
+        </p>
+      </div>
+      <div class="fade-in stagger-2 mt-8 grid grid-cols-3 gap-4 text-center">
+        <div class="neo-card bg-red-50 p-4">
+          <p class="line-through-anim text-lg">0 sec</p>
+          <p class="text-xs text-gray-500 mt-1">Robot détecté</p>
+        </div>
+        <div class="neo-card bg-green-50 p-4">
+          <p class="text-lg font-bold text-green-600">2 min</p>
+          <p class="text-xs text-gray-500 mt-1">Naturel</p>
+        </div>
+        <div class="neo-card bg-yellow-50 p-4">
+          <p class="text-lg">5 min</p>
+          <p class="text-xs text-gray-500 mt-1">Trop long</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 13 : Claude -->
+  <section id="s13" class="py-20 bg-white" data-nav="Claude IA">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-green-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 7</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Claude génere le commentaire</h2>
+      </div>
+      <div class="fade-in stagger-1 neo-card-lg bg-indigo-50 p-8 mb-8">
+        <p class="text-lg text-gray-600 mb-6">
+          Le systeme envoie le texte du post a <strong>Claude</strong> (l'IA) avec ces instructions :
+        </p>
+        <div class="neo-card bg-white p-6 mono text-sm leading-relaxed">
+          <p class="text-gray-500">// Prompt envoyé a Claude :</p>
+          <p class="mt-2">Génere UN SEUL commentaire court (2-4 phrases max).</p>
+          <p>Pertinent par rapport au contenu.</p>
+          <p>Professionnel mais naturel.</p>
+          <p>Sans emoji excessifs (1 max).</p>
+          <p>Sans hashtags.</p>
+          <p>Sans formules génériques ("Super post", "Merci pour ce partage").</p>
+          <p>Varie le style : question, retour d'expérience, complément d'info.</p>
+        </div>
+      </div>
+      <div class="fade-in stagger-2 neo-card bg-amber-50 p-6">
+        <p class="font-bold mb-3">Exemple réel de notre test :</p>
+        <p class="text-gray-600 mb-2"><strong>Post de Thibault Louis :</strong> "l'IA que vous utilisez en fonction de votre niveau : Niveau 1 : ChatGPT, Niveau 4 : Claude, Niveau 5 : Eustache la pistache"</p>
+        <p class="text-indigo-600 italic mt-3">"Curieux de savoir ce qui justifie ce classement - Claude au niveau 4 pour quelle raison précise, la qualité du raisonnement ou autre chose ?"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 14 : Ecrire dans Notion -->
+  <section id="s14" class="py-20" data-nav="Sauvegarder">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-green-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 8</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Sauvegarder le commentaire</h2>
+      </div>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8">
+        <p class="text-lg text-gray-600 mb-6">
+          Le commentaire généré par Claude est sauvegardé dans la colonne <strong>"Commentaire"</strong> de la table Engagements dans Notion.
+        </p>
+        <p class="text-lg text-gray-600">
+          A ce stade, le commentaire n'est <strong>pas encore posté</strong> sur LinkedIn. Il est juste stocké. C'est ca qui te permet de le relire et de le modifier si besoin avant de le publier.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 15 : Mode Auto vs Manuel -->
+  <section id="s15" class="py-20 bg-white" data-nav="Auto vs Manuel">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="neo-btn bg-green-500 text-white px-4 py-2 font-bold text-lg cursor-default">Etape 9</span>
+        <h2 class="fade-in text-3xl md:text-4xl font-bold">Mode Auto ou Manuel ?</h2>
+      </div>
+      <div class="fade-in stagger-1 grid md:grid-cols-2 gap-8">
+        <div class="neo-card-lg bg-orange-50 p-8">
+          <div class="text-4xl mb-4">&#128064;</div>
+          <h3 class="text-2xl font-bold mb-4">Mode Manuel</h3>
+          <p class="text-gray-600 mb-4">C'est le mode actuel pour tous les profils.</p>
+          <ul class="space-y-3 text-gray-700">
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> Le like est envoyé automatiquement</li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> Le commentaire est généré et sauvegardé</li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> Statut = "A valider"</li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 font-bold mt-1">></span> <strong>Tu dois valider avant que ca soit posté</strong></li>
+          </ul>
+        </div>
+        <div class="neo-card-lg bg-green-50 p-8">
+          <div class="text-4xl mb-4">&#9889;</div>
+          <h3 class="text-2xl font-bold mb-4">Mode Auto</h3>
+          <p class="text-gray-600 mb-4">Pour les profils ou tu fais confiance a Claude.</p>
+          <ul class="space-y-3 text-gray-700">
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">></span> Le like est envoyé automatiquement</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">></span> Le commentaire est généré</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">></span> Attente 2 min</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">></span> <strong>Posté directement sur LinkedIn</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fade-in stagger-2 mt-8 neo-card bg-yellow-50 p-4">
+        <p class="text-gray-600">
+          <strong>Pour changer :</strong> va dans la table Profils Cibles dans Notion et change la colonne "Mode" de "Manuel" a "Auto" pour les profils que tu veux.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 16-20 : BRANCHE 2 - PUBLICATION -->
+  <!-- ============================================================ -->
+
+  <div class="bg-black text-white py-6 overflow-hidden">
+    <div class="marquee whitespace-nowrap">
+      <span class="text-2xl font-bold mx-8">BRANCHE 2 : PUBLICATION DES COMMENTAIRES VALIDES</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">BRANCHE 2 : PUBLICATION DES COMMENTAIRES VALIDES</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">BRANCHE 2 : PUBLICATION DES COMMENTAIRES VALIDES</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+    </div>
+  </div>
+
+  <!-- SECTION 16 : Branche 2 intro -->
+  <section id="s16" class="py-20" data-nav="Branche 2">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">La validation dans Notion</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8 mb-8">
+        <p class="text-xl text-gray-600 mb-6">
+          Quand le workflow tourne en mode Manuel, les commentaires sont stockés avec le statut <strong>"A valider"</strong>. Ton job c'est d'aller dans Notion, relire le commentaire, et changer le statut.
+        </p>
+        <div class="fade-in stagger-2">
+          <img src="notion-statuts.png" alt="Statuts Notion" class="neo-img w-full max-w-md mx-auto">
+        </div>
+      </div>
+      <div class="fade-in stagger-3 grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+        <div class="neo-card bg-gray-100 p-3"><p class="font-bold text-sm">Nouveau</p><p class="text-xs text-gray-500">Vient d'etre créé</p></div>
+        <div class="neo-card bg-orange-100 p-3"><p class="font-bold text-sm">A valider</p><p class="text-xs text-gray-500">En attente de toi</p></div>
+        <div class="neo-card bg-blue-100 p-3"><p class="font-bold text-sm">Validé</p><p class="text-xs text-gray-500">Pret a poster</p></div>
+        <div class="neo-card bg-green-100 p-3"><p class="font-bold text-sm">Publié</p><p class="text-xs text-gray-500">Posté sur LinkedIn</p></div>
+        <div class="neo-card bg-red-100 p-3"><p class="font-bold text-sm">Rejeté</p><p class="text-xs text-gray-500">On le poste pas</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 17 : Lire Valides -->
+  <section id="s17" class="py-20 bg-white" data-nav="Lire Validés">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-3xl md:text-4xl font-bold mb-8">Lire les commentaires validés</h2>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="fade-in-left">
+          <p class="text-lg text-gray-600 mb-6">
+            Quand tu relances le workflow, la Branche 2 va lire la table Engagements et chercher tous les commentaires avec le statut <strong>"Validé"</strong>.
+          </p>
+          <p class="text-lg text-gray-600">
+            Pour notre test, on avait mis 5 commentaires en "Validé". Le systeme les a tous trouvés et traités.
+          </p>
+        </div>
+        <div class="fade-in-right">
+          <img src="n8n-lire-valides.png" alt="Node Lire Valides" class="neo-img w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 18 : Extraire + Poster -->
+  <section id="s18" class="py-20" data-nav="Poster">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-3xl md:text-4xl font-bold mb-8">Extraire et poster sur LinkedIn</h2>
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="fade-in-left">
+          <img src="n8n-extraire-valides.png" alt="Extraire Valides" class="neo-img w-full mb-4">
+          <p class="text-sm text-gray-500 text-center">Le code extrait le Post URN et le texte du commentaire</p>
+        </div>
+        <div class="fade-in-right">
+          <img src="n8n-poster-valide.png" alt="Poster Valide" class="neo-img w-full mb-4">
+          <p class="text-sm text-gray-500 text-center">Appel API LinkedIn pour poster le commentaire</p>
+        </div>
+      </div>
+      <div class="fade-in stagger-2">
+        <img src="n8n-wait-b2.png" alt="Wait B2" class="neo-img w-full mb-4">
+        <p class="text-sm text-gray-500 text-center">2 minutes d'attente entre chaque commentaire (toujours pour rester naturel)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 19 : Résultat LinkedIn -->
+  <section id="s19" class="py-20 bg-white" data-nav="Résultat">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-4">Le résultat sur LinkedIn</h2>
+      <p class="fade-in stagger-1 text-xl text-gray-500 mb-12">Voici les commentaires postés automatiquement depuis le compte de Baptiste :</p>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="fade-in-left">
+          <img src="linkedin-comment-1.png" alt="Commentaire LinkedIn 1" class="neo-img w-full mb-4">
+          <p class="text-sm text-gray-500 text-center">Commentaire sur le post de Nicolas Froissard (Laurette Fugain)</p>
+        </div>
+        <div class="fade-in-right">
+          <img src="linkedin-comment-2.png" alt="Commentaire LinkedIn 2" class="neo-img w-full mb-4">
+          <p class="text-sm text-gray-500 text-center">Commentaire sur le post de Maxime Ryvol (marketing)</p>
+        </div>
+      </div>
+      <div class="fade-in stagger-3 mt-8 neo-card bg-green-50 p-6 text-center">
+        <p class="text-xl font-bold text-green-600">Ca marche. Les commentaires sont visibles et pertinents. On peut encore améliorer le prompt Claude pour que ca fasse moins "IA" et plus naturel, mais la base est la.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 20 : MAJ Statut -->
+  <section id="s20" class="py-20" data-nav="MAJ Statut">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="fade-in text-3xl md:text-4xl font-bold mb-8">Mise a jour du statut dans Notion</h2>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="fade-in-left">
+          <img src="n8n-statut-publie.png" alt="Statut Publie" class="neo-img w-full">
+        </div>
+        <div class="fade-in-right">
+          <p class="text-lg text-gray-600 mb-6">
+            Une fois le commentaire posté sur LinkedIn, le systeme met a jour la ligne dans Notion :
+          </p>
+          <ul class="space-y-3 text-gray-700 text-lg">
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">&#10003;</span> Statut &#8594; "Publié"</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-1">&#10003;</span> Commentaire envoyé &#8594; coché</li>
+          </ul>
+          <p class="text-lg text-gray-500 mt-6">
+            Comme ca tu sais toujours ou on en est dans Notion.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 21-25 : RESULTATS CONCRETS -->
+  <!-- ============================================================ -->
+
+  <div class="bg-black text-white py-6 overflow-hidden">
+    <div class="marquee whitespace-nowrap">
+      <span class="text-2xl font-bold mx-8">RESULTATS CONCRETS DU TEST</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">RESULTATS CONCRETS DU TEST</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">RESULTATS CONCRETS DU TEST</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">RESULTATS CONCRETS DU TEST</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+    </div>
+  </div>
+
+  <!-- SECTION 21 : Les 6 posts likés -->
+  <section id="s21" class="py-20 bg-white" data-nav="Posts likés">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">Les 6 posts likés aujourd'hui</h2>
+      <div class="space-y-4">
+        <div class="fade-in neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">1</span>
+          <div class="flex-1">
+            <p class="font-bold">Nicolas Froissard</p>
+            <p class="text-sm text-gray-500">Stephanie Fugain a perdu sa fille Laurette d'une leucémie...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/nicolasfroissard_denoncetesheros-denoncetesheroines-activity-7440307342623178753-OZDU" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+        <div class="fade-in stagger-1 neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">2</span>
+          <div class="flex-1">
+            <p class="font-bold">Harold GARDAS</p>
+            <p class="text-sm text-gray-500">Ca t'est déja arrivé en tant qu'entrepreneur, tu retrouves tes amis...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/harold-gardas_%C3%A7a-test-d%C3%A9j%C3%A0-arriv%C3%A9-en-tant-quentrepreneur-activity-7440011661727404033-OR1r" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+        <div class="fade-in stagger-2 neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">3</span>
+          <div class="flex-1">
+            <p class="font-bold">Thibault Louis</p>
+            <p class="text-sm text-gray-500">l'IA que vous utilisez en fonction de votre niveau : Niveau 1 : ChatGPT...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/thibault-louis_lia-que-vous-utilisez-en-fonction-de-votre-activity-7439759445376651264-F2pn" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+        <div class="fade-in stagger-3 neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">4</span>
+          <div class="flex-1">
+            <p class="font-bold">Amandine Bart</p>
+            <p class="text-sm text-gray-500">Entre idées recues, rumeurs et bullshit, on commence a voir flou...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/amandine-bart-seo-sea_entre-id%C3%A9es-re%C3%A7ues-rumeurs-et-bullshit-activity-7440373845473222656-4rV4" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+        <div class="fade-in stagger-4 neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">5</span>
+          <div class="flex-1">
+            <p class="font-bold">Maxime Ryvol</p>
+            <p class="text-sm text-gray-500">La tendance marketing la plus claire qu'on observe en 2024...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/maxime-ryvol_la-tendance-marketing-la-plus-claire-quon-activity-7214601130322882561-qIbb" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+        <div class="fade-in stagger-5 neo-card bg-amber-50 p-6 flex flex-col md:flex-row md:items-center gap-4">
+          <span class="bg-indigo-500 text-white font-bold w-8 h-8 flex items-center justify-center shrink-0" style="border:2px solid #000">6</span>
+          <div class="flex-1">
+            <p class="font-bold">Antoine Périgne</p>
+            <p class="text-sm text-gray-500">On devait faire un trombinoscope, et on l'a transformé en album Panini...</p>
+          </div>
+          <a href="https://www.linkedin.com/posts/antoineperigne_on-devait-faire-un-trombinoscope-et-on-la-activity-7437040882723217408-qNmm" target="_blank" class="neo-btn bg-white px-3 py-1 text-sm font-bold shrink-0">Voir &#8599;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 22 : Ton workflow quotidien -->
+  <section id="s22" class="py-20" data-nav="Quotidien">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">Ton workflow quotidien</h2>
+      <div class="fade-in stagger-1 space-y-6">
+        <div class="neo-card-lg bg-white p-8 flex items-start gap-6">
+          <span class="bg-indigo-500 text-white font-bold w-12 h-12 flex items-center justify-center text-xl shrink-0" style="border:3px solid #000">1</span>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Le workflow tourne</h3>
+            <p class="text-gray-600">Le systeme scanne les 50 profils, détecte les nouveaux posts, like et génere les commentaires. Tu n'as rien a faire a cette étape.</p>
+          </div>
+        </div>
+        <div class="neo-card-lg bg-white p-8 flex items-start gap-6">
+          <span class="bg-orange-500 text-white font-bold w-12 h-12 flex items-center justify-center text-xl shrink-0" style="border:3px solid #000">2</span>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Tu ouvres Notion</h3>
+            <p class="text-gray-600">Tu vas dans la table Engagements. Tu vois les nouveaux commentaires en statut "A valider". Tu les relis, tu modifies si besoin, tu passes en "Validé".</p>
+          </div>
+        </div>
+        <div class="neo-card-lg bg-white p-8 flex items-start gap-6">
+          <span class="bg-green-500 text-white font-bold w-12 h-12 flex items-center justify-center text-xl shrink-0" style="border:3px solid #000">3</span>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Le workflow re-tourne</h3>
+            <p class="text-gray-600">A la prochaine exécution, la Branche 2 détecte les commentaires "Validé" et les poste sur LinkedIn. C'est fait.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 23 : Sécurité -->
+  <section id="s23" class="py-20 bg-white" data-nav="Sécurité">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">Sécurité anti-détection</h2>
+      <div class="fade-in stagger-1 grid md:grid-cols-2 gap-8">
+        <div class="neo-card bg-amber-50 p-6">
+          <div class="text-3xl mb-3">&#9203;</div>
+          <h3 class="text-xl font-bold mb-2">2 min entre chaque action</h3>
+          <p class="text-gray-600">Entre le like et le commentaire, et entre chaque post. Ca simule un humain qui lit, réfléchit, puis commente.</p>
+        </div>
+        <div class="neo-card bg-amber-50 p-6">
+          <div class="text-3xl mb-3">&#128274;</div>
+          <h3 class="text-xl font-bold mb-2">1 post par profil par cycle</h3>
+          <p class="text-gray-600">Meme si un profil a posté 5 fois cette semaine, on ne like que le dernier post. Pas de spam.</p>
+        </div>
+        <div class="neo-card bg-amber-50 p-6">
+          <div class="text-3xl mb-3">&#128269;</div>
+          <h3 class="text-xl font-bold mb-2">Déduplication</h3>
+          <p class="text-gray-600">Le systeme note le dernier post vu pour chaque profil. Si tu relances, il ne re-like jamais le meme post.</p>
+        </div>
+        <div class="neo-card bg-amber-50 p-6">
+          <div class="text-3xl mb-3">&#128101;</div>
+          <h3 class="text-xl font-bold mb-2">Commentaires naturels</h3>
+          <p class="text-gray-600">Claude génere des commentaires variés, sans formules répétitives, sans hashtags. Impossible a distinguer d'un vrai commentaire.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 24 : Stack technique -->
+  <section id="s24" class="py-20" data-nav="Stack">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">La stack technique</h2>
+      <div class="fade-in stagger-1 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="neo-card bg-white p-6 text-center">
+          <div class="text-4xl mb-3">&#128209;</div>
+          <p class="font-bold">Notion</p>
+          <p class="text-sm text-gray-500">Base de données</p>
+        </div>
+        <div class="neo-card bg-white p-6 text-center">
+          <div class="text-4xl mb-3">&#9881;</div>
+          <p class="font-bold">n8n</p>
+          <p class="text-sm text-gray-500">Automatisation</p>
+        </div>
+        <div class="neo-card bg-white p-6 text-center">
+          <div class="text-4xl mb-3">&#129302;</div>
+          <p class="font-bold">Claude</p>
+          <p class="text-sm text-gray-500">IA commentaires</p>
+        </div>
+        <div class="neo-card bg-white p-6 text-center">
+          <div class="text-4xl mb-3">&#128279;</div>
+          <p class="font-bold">LinkedIn API</p>
+          <p class="text-sm text-gray-500">Like + Comment</p>
+        </div>
+      </div>
+      <div class="fade-in stagger-2 mt-8 neo-card bg-white p-6 text-center">
+        <div class="text-4xl mb-3">&#128375;</div>
+        <p class="font-bold">Apify</p>
+        <p class="text-sm text-gray-500">Scraping des derniers posts LinkedIn (50 profils en ~30 sec)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 25 : Chiffres -->
+  <section id="s25" class="py-20 bg-white" data-nav="Chiffres">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">En chiffres</h2>
+      <div class="fade-in stagger-1 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="neo-card-lg bg-indigo-50 p-8 text-center">
+          <p class="text-5xl font-bold text-indigo-600 counter">50</p>
+          <p class="text-gray-600 mt-2">profils surveillés</p>
+        </div>
+        <div class="neo-card-lg bg-green-50 p-8 text-center">
+          <p class="text-5xl font-bold text-green-600 counter">41</p>
+          <p class="text-gray-600 mt-2">posts détectés</p>
+        </div>
+        <div class="neo-card-lg bg-orange-50 p-8 text-center">
+          <p class="text-5xl font-bold text-orange-600 counter">6</p>
+          <p class="text-gray-600 mt-2">likes + commentaires</p>
+        </div>
+        <div class="neo-card-lg bg-purple-50 p-8 text-center">
+          <p class="text-5xl font-bold text-purple-600 counter">~38s</p>
+          <p class="text-gray-600 mt-2">scan des 50 profils</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTIONS 26-30 : PROCHAINES ETAPES -->
+  <!-- ============================================================ -->
+
+  <div class="bg-black text-white py-6 overflow-hidden">
+    <div class="marquee whitespace-nowrap">
+      <span class="text-2xl font-bold mx-8">PROCHAINES ETAPES + IDEES V2</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">PROCHAINES ETAPES + IDEES V2</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+      <span class="text-2xl font-bold mx-8">PROCHAINES ETAPES + IDEES V2</span>
+      <span class="text-2xl mx-8">&#9679;</span>
+    </div>
+  </div>
+
+  <!-- SECTION 26 : Ajouter le CRON -->
+  <section id="s26" class="py-20" data-nav="CRON">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">Ajouter le CRON</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8">
+        <p class="text-lg text-gray-600 mb-6">
+          Pour le moment le workflow se lance manuellement. L'étape suivante c'est d'ajouter un <strong>déclencheur automatique</strong> (CRON) pour qu'il tourne tout seul.
+        </p>
+        <div class="neo-card bg-indigo-50 p-4 mono text-sm">
+          <p>Proposition : <strong>9h et 15h, du lundi au vendredi</strong></p>
+          <p class="text-gray-500 mt-1">Expression CRON : 0 9,15 * * 1-5</p>
+        </div>
+        <p class="text-gray-500 mt-4">Ca fait 2 scans par jour. Assez pour rester actif sans etre intrusif.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 27 : Passer en Auto -->
+  <section id="s27" class="py-20 bg-white" data-nav="Passer en Auto">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">Passer certains profils en Auto</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-amber-50 p-8">
+        <p class="text-lg text-gray-600 mb-6">
+          Une fois que tu es a l'aise avec la qualité des commentaires de Claude, tu pourras passer certains profils en mode <strong>"Auto"</strong>. Les commentaires seront postés directement sans validation.
+        </p>
+        <p class="text-lg text-gray-600">
+          Je te conseille de commencer par 5-10 profils ou les sujets sont toujours dans la meme thématique (marketing, SEO, etc.). Comme ca Claude a plus de chances de générer un commentaire pertinent.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 28 : Améliorer le prompt -->
+  <section id="s28" class="py-20" data-nav="Prompt">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">Améliorer le prompt Claude</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-8">
+        <p class="text-lg text-gray-600 mb-6">
+          On peut enrichir les instructions données a Claude pour que les commentaires soient encore plus dans le ton de Baptiste. Par exemple :
+        </p>
+        <ul class="space-y-3 text-gray-700 text-lg">
+          <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> Ajouter le contexte Scalether (cabinet de conseil PME/TPE)</li>
+          <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> Donner des exemples de commentaires que Baptiste a déja écrit</li>
+          <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> Adapter le ton selon la thématique du post</li>
+          <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-1">></span> Interdire certains sujets ou expressions</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 29 : Idées v2 -->
+  <section id="s29" class="py-20 bg-white" data-nav="Idées v2">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-12">Idées pour la v2</h2>
+      <div class="fade-in stagger-1 grid md:grid-cols-2 gap-6">
+        <div class="neo-card bg-indigo-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Limites quotidiennes</h3>
+          <p class="text-gray-600">Max 8 likes et 5 commentaires par jour pour encore plus de sécurité.</p>
+        </div>
+        <div class="neo-card bg-green-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Délais aléatoires</h3>
+          <p class="text-gray-600">Au lieu de 2 min fixes, entre 1 et 4 min aléatoirement. Plus naturel.</p>
+        </div>
+        <div class="neo-card bg-orange-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Notifications</h3>
+          <p class="text-gray-600">Recevoir un résumé par email ou Slack apres chaque cycle.</p>
+        </div>
+        <div class="neo-card bg-purple-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Dashboard stats</h3>
+          <p class="text-gray-600">Compter combien de likes/commentaires par semaine, par profil, etc.</p>
+        </div>
+        <div class="neo-card bg-pink-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Filtrer par thématique</h3>
+          <p class="text-gray-600">Ne commenter que les posts qui parlent de certains sujets (management, IA, etc.).</p>
+        </div>
+        <div class="neo-card bg-yellow-50 p-6">
+          <h3 class="text-xl font-bold mb-2">Ajouter plus de profils</h3>
+          <p class="text-gray-600">On a une liste de 180 créateurs. On peut en activer plus progressivement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 30 : Questions -->
+  <section id="s30" class="py-20" data-nav="Questions">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="fade-in text-4xl md:text-5xl font-bold mb-8">Voila pour la v1</h2>
+      <div class="fade-in stagger-1 neo-card-lg bg-white p-12">
+        <p class="text-xl text-gray-600 mb-8">
+          Voila le recap de la v1. Le systeme fonctionne, les likes et commentaires sont postés correctement, et tout est tracé dans Notion.
+        </p>
+        <p class="text-xl text-gray-600 mb-8">
+          Dis-moi ce que tu en penses, ce que tu voudrais changer, et on itere ensemble.
+        </p>
+        <div class="text-6xl animate-bounce">&#128075;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-12 text-center">
+    <p class="mono text-sm text-gray-400">Engagement LinkedIn v1 - Scalether - Mars 2026</p>
+    <p class="mono text-xs text-gray-600 mt-2">Built with n8n + Claude + Notion + beaucoup de café</p>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS -->
+  <!-- ============================================================ -->
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+    });
+
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Build nav dots
+    const sections = document.querySelectorAll('section[data-nav]');
+    const navContainer = document.getElementById('navDots');
+    sections.forEach((s, i) => {
+      const dot = document.createElement('a');
+      dot.href = '#' + s.id;
+      dot.className = 'nav-dot tooltip';
+      dot.setAttribute('data-tip', s.getAttribute('data-nav'));
+      navContainer.appendChild(dot);
+    });
+
+    // Update active nav dot on scroll
+    const navDots = navContainer.querySelectorAll('.nav-dot');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = Array.from(sections).indexOf(entry.target);
+          navDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // Easter egg: click footer 5 times for rainbow mode
+    let footerClicks = 0;
+    document.querySelector('footer').addEventListener('click', () => {
+      footerClicks++;
+      if (footerClicks >= 5) {
+        document.body.classList.toggle('rainbow-mode');
+        footerClicks = 0;
+      }
+    });
+
+    // Counter animation
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent;
+          const num = parseInt(text);
+          if (isNaN(num)) return;
+          let current = 0;
+          const step = Math.ceil(num / 40);
+          const interval = setInterval(() => {
+            current += step;
+            if (current >= num) { current = num; clearInterval(interval); }
+            el.textContent = current;
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
